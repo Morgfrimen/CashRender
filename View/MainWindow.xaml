@@ -1,0 +1,100 @@
+﻿<Window x:Class="WpfAppGallery.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfAppGallery"
+        xmlns:res="clr-namespace:WpfAppGallery.Properties"
+        mc:Ignorable="d"
+        Title="{x:Static res:Resources.MainWindowTitle}" MinHeight="450" MinWidth="800">
+    <Window.Resources>
+        <Style TargetType="FrameworkElement" x:Key="MainWindowTextBoxControl">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="Button" x:Key="ButtonSimple">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="Margin" Value="10,0"/>
+            <Setter Property="Padding" Value="10,0"/>
+        </Style>
+        <Style TargetType="Button" x:Key="MainWindowButtonSelectImage">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="MinWidth" Value="40"/>
+            <Setter Property="Margin" Value="10,0"/>
+            <Setter Property="FontSize" Value="30"/>
+        </Style>
+        <Style TargetType="Panel" x:Key="MainWindowPanel">
+            <Setter Property="Margin" Value="10,0"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition/>
+            <RowDefinition Height="0.1*" MinHeight="40"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel  Grid.Row="0" Style="{StaticResource MainWindowPanel}">
+            <TextBlock Text="{x:Static res:Resources.Folder}" Style="{StaticResource MainWindowTextBoxControl}" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Column="0" Text="TODO: Binding Property" Style="{StaticResource MainWindowTextBoxControl}"/>
+                <Button HorizontalAlignment="Right" Grid.Column="1" x:Name="ButtonWaySelect"  Content="{x:Static res:Resources.MainWindow_Button_Select}" Style="{StaticResource ButtonSimple}"/>
+            </Grid>
+        </StackPanel>
+
+        <Grid Grid.Row="1" x:Name="GridContainerImage" Style="{StaticResource MainWindowPanel}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.35*"/>
+                <RowDefinition Height="0.3*" />
+                <RowDefinition Height="0.35*"/>
+            </Grid.RowDefinitions>
+            <Button Grid.Column="0" Grid.Row="1"  Style="{StaticResource MainWindowButtonSelectImage}" Content="&lt;"/>
+            <!--<Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" BorderThickness="1" BorderBrush="Black">
+                <Grid x:Name="GridImage">
+                    
+                    <Line Stroke="Gray" StrokeThickness="2" X1="0" Y1="0" X2="{Binding ElementName=GridImage, Path=ActualWidth}" Y2="{Binding ElementName=GridImage, Path=ActualHeight}"/>
+                    <Line  Stroke="Gray" StrokeThickness="2" X1="{Binding ElementName=GridImage, Path=ActualWidth}" Y1="0" X2="0" Y2="{Binding ElementName=GridImage, Path=ActualHeight}"/>
+                    <Border Height="40" Width="150" BorderThickness="1" BorderBrush="Black" Background="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="Текущее изоражение" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                    
+                </Grid>
+            </Border>-->
+            <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Image Grid.Row="0" x:Name="Image" Source="C:\Users\Santa\Pictures\Котикjpg.jpg" />
+                <TextBox Grid.Row="1" Text="TODO: Text Property" TextWrapping="Wrap" MinLines="3"
+                         Width="{Binding ElementName=Image,Path=ActualWidth}" MinWidth="200"/>
+
+            </Grid>
+            <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource MainWindowButtonSelectImage}" Content="&gt;"/>
+        </Grid>
+
+        <Button Grid.Row="2" Style="{StaticResource ButtonSimple}"
+                HorizontalAlignment="Right"  Content="Закрыть приложение" VerticalAlignment="Center"/>
+
+        
+
+
+    </Grid>
+</Window>
