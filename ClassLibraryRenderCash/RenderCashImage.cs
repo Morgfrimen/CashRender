@@ -28,16 +28,16 @@ namespace ClassLibraryRenderCash
         public override Page GetPage(uint numberPage)
         {
             Page page;
-            if (base.GetPage(numberPage) == null)
+            if (base.GetPage(numberPage) != null)
             {
-                if(_image == null)
-                    DownloadImage();
-                page = new Page(_image, numberPage, Extension.GetTimeSpanNow());
+                DownloadImage();
+                page = PageCash.Find(image=> image.NumberPage == numberPage);
             }
             else
+            {
                 page = GetDefaultPage(numberPage);
-
-            AddPage(page);
+                AddPage(page);
+            }
             return page;
 
         }
@@ -46,22 +46,32 @@ namespace ClassLibraryRenderCash
         {
             if (e.Operation1 == Operation.Cancel)
             {
-                //TODO:Уведомить пользователя, что операция не прошла 
+                //TODO: Реакция на отмену операции
             }
         }
 
         //Закладывается смысл что тут нужно загрузить изображение, которое сейчас просматривает пользователь
         #region Download
+
+        /// <summary>
+        /// Подгружаем по указанном пути
+        /// </summary>
+        /// <param name="wayFolderImage"></param>
         internal void DownloadImage(string wayFolderImage)
         {
             _image = new Bitmap(wayFolderImage);
         }
-
+        /// <summary>
+        /// Загружает сам объект Image
+        /// </summary>
         internal void DownloadImage(Image wayFolderImage)
         {
             _image = wayFolderImage;
         }
 
+        /// <summary>
+        /// Только для теста
+        /// </summary>
         internal void DownloadImage()
         {
             _image = SystemIcons.Application.ToBitmap();

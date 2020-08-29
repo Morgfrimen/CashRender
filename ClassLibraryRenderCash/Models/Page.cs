@@ -7,6 +7,11 @@ namespace ClassLibraryRenderCash.Models
     /// </summary>
     public sealed class Page
     {
+        public bool Equals(Page pageOne, Page pageTwo)
+        {
+            return pageOne.NumberPage == pageTwo.NumberPage;
+        }
+
         /// <summary>
         /// Содержание страницы
         /// </summary>

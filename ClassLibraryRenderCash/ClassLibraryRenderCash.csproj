@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\CashChangedEventArgs.cs" />
+    <Compile Include="Models\DistinctItemComparer.cs" />
     <Compile Include="Models\Extension.cs" />
     <Compile Include="Models\Page.cs" />
     <Compile Include="IRenderCash.cs" />

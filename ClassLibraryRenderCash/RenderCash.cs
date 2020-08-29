@@ -70,17 +70,18 @@ namespace ClassLibraryRenderCash
         /// <param name="page"></param>
         protected virtual void AddPage(Page page)
         {
-            if (PageCash.Count + 1 < MaxSize)
+            lock (PageCash)
             {
-                lock (PageCash)
-                {
-                    PageCash.Add(page);
-                }
-                OnCashChangedEvent(this, new CashChangedEventArgs(Operation.Add)); 
+                PageCash.Add(page);
+            }
+            if (PageCash.Count - 1 < MaxSize)
+            {
+                OnCashChangedEvent(this, new CashChangedEventArgs(Operation.Add,page)); 
             }
             else
             {
-                OnCashChangedEvent(this,new CashChangedEventArgs(Operation.Cancel));
+                Validate(page);
+                OnCashChangedEvent(this,new CashChangedEventArgs(Operation.Cancel,page));
             }
         }
 
@@ -103,7 +104,7 @@ namespace ClassLibraryRenderCash
             {
                 PageCash.RemoveAt((int)page); 
             }
-            OnCashChangedEvent(this,new CashChangedEventArgs(Operation.Delete));
+            OnCashChangedEvent(this,new CashChangedEventArgs(Operation.Delete,page));
         }
 
         /// <summary>
@@ -127,7 +128,6 @@ namespace ClassLibraryRenderCash
 
         public virtual Page GetPage(uint numberPage)
         {
-            Validate(numberPage);
             var page = PageCash.Where(pages => pages.NumberPage == numberPage);
             if (page.Any())
             {
@@ -148,20 +148,20 @@ namespace ClassLibraryRenderCash
         /// <summary>
         /// Валидация
         /// </summary>
-        protected void Validate(uint numberPage)
+        protected void Validate(Page page)
         {
             //Удаляем старые элементы
             if (PageCash.Count > MaxSize)
             {
-                for (int indexPage = 0; indexPage < MaxSize - PageCash.Count; indexPage++)
+                for (int indexPage = 0; indexPage <= PageCash.Count - MaxSize; indexPage++)
                 {
-                    PageCash.RemoveAt(PageCash.FindIndex(page =>
-                        page.TimeSpanAddPage == PageCash.Min(pages => pages.TimeSpanAddPage)));
+                    PageCash.RemoveAt(PageCash.FindIndex(pagess =>
+                        pagess.TimeSpanAddPage == PageCash.Min(pages => pages.TimeSpanAddPage)));
                 }
             }
 
             //Удаляем повторяющуюся страницы
-             PageCash = PageCash.Distinct().ToList();
+             PageCash = PageCash.Distinct(new DistinctItemComparer()).ToList();
         }
 
         protected virtual void OnCashChangedEvent(object sender,CashChangedEventArgs e)
