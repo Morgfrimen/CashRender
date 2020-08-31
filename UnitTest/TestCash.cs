@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using ClassLibraryRenderCash;
-using ClassLibraryRenderCash.Models;
+﻿using ClassLibraryRenderCash.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTest
@@ -9,28 +6,36 @@ namespace UnitTest
     [TestClass]
     public class TestCash
     {
-        [TestMethod]
-        public void Test_GetPage_RenderCashBitmap()
-        {
-            IRenderCash renderCashBitmap = new RenderCashImage();
-            var page = renderCashBitmap.GetPage(0);
-            var testPage = renderCashBitmap.GetPage(0);
+        private CashBitMap cashBitMapDefaultSize;
+        private CashBitMap cashBitMapDefault;
+        private uint defaultNumberPage = 5;
 
-            Assert.AreEqual(page.TimeSpanAddPage,testPage.TimeSpanAddPage);
-            Assert.AreEqual(page.NumberPage,testPage.NumberPage);
+        [TestInitialize]
+        public void TestCash_Initialize()
+        {
+            this.cashBitMapDefaultSize = new CashBitMap();
+            cashBitMapDefault = new CashBitMap(0);
+        }
+
+
+        [TestMethod]
+        public void Test_GetPage_CashBitMap()
+        {
+            var pageDefault = cashBitMapDefaultSize.GetCash(defaultNumberPage);
+            var savePage = cashBitMapDefaultSize.GetCash(defaultNumberPage);
+
+            Assert.AreEqual(pageDefault.TimeSpanPage, savePage.TimeSpanPage);
+            Assert.AreEqual(pageDefault.NumberPage, savePage.NumberPage);
+            Assert.AreEqual(pageDefault.Image, savePage.Image);
         }
 
         [TestMethod]
-        public void Test_MaxSize_Test_GetPage_RenderCashBitmap()
+        public void Test_GetPage_CashBitMap_Size()
         {
-            IRenderCash renderCashBitmap = new RenderCashImage(1);
-            var page0 = renderCashBitmap.GetPage(0);
-            var page1 = renderCashBitmap.GetPage(1);
-            var page2 = renderCashBitmap.GetPage(2);
+            var pageDefault1 = cashBitMapDefault.GetCash(defaultNumberPage);
+            var savePage1 = cashBitMapDefault.GetCash(defaultNumberPage);
 
-            var testAsync = new Task<Page>[]
-                {renderCashBitmap.GetPageAsync(0), renderCashBitmap.GetPageAsync(1), renderCashBitmap.GetPageAsync(2)};
-
+            Assert.AreNotEqual(savePage1.TimeSpanPage, pageDefault1.TimeSpanPage);
         }
     }
 }
