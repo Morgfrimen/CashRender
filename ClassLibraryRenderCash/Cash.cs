@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using ClassLibraryRenderCash.Models;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using ClassLibraryRenderCash.Models;
 
 namespace ClassLibraryRenderCash
 {
@@ -21,7 +21,7 @@ namespace ClassLibraryRenderCash
             MaxSize = maxSize;
         }
 
-        protected uint MaxSize { get; set; } = 100;
+        private uint MaxSize { get; set; } = 100;
         protected List<PageCash> PageCash { get; set; }
 
         private void Valid(uint numberPage)
