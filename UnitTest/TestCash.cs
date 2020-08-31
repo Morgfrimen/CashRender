@@ -6,23 +6,24 @@ namespace UnitTest
     [TestClass]
     public class TestCash
     {
-        private CashBitMap cashBitMapDefaultSize;
-        private CashBitMap cashBitMapDefault;
-        private uint defaultNumberPage = 5;
+        private CashBitMap _cashBitMapDefaultSize;
+        private CashBitMap _cashBitMapDefault;
+
+        public uint DefaultNumberPage { get; set; } = 5;
 
         [TestInitialize]
         public void TestCash_Initialize()
         {
-            this.cashBitMapDefaultSize = new CashBitMap();
-            cashBitMapDefault = new CashBitMap(0);
+            this._cashBitMapDefaultSize = new CashBitMap();
+            _cashBitMapDefault = new CashBitMap(0);
         }
 
 
         [TestMethod]
         public void Test_GetPage_CashBitMap()
         {
-            var pageDefault = cashBitMapDefaultSize.GetCash(defaultNumberPage);
-            var savePage = cashBitMapDefaultSize.GetCash(defaultNumberPage);
+            var pageDefault = _cashBitMapDefaultSize.GetCash(DefaultNumberPage);
+            var savePage = _cashBitMapDefaultSize.GetCash(DefaultNumberPage);
 
             Assert.AreEqual(pageDefault.TimeSpanPage, savePage.TimeSpanPage);
             Assert.AreEqual(pageDefault.NumberPage, savePage.NumberPage);
@@ -32,8 +33,8 @@ namespace UnitTest
         [TestMethod]
         public void Test_GetPage_CashBitMap_Size()
         {
-            var pageDefault1 = cashBitMapDefault.GetCash(defaultNumberPage);
-            var savePage1 = cashBitMapDefault.GetCash(defaultNumberPage);
+            var pageDefault1 = _cashBitMapDefault.GetCash(DefaultNumberPage);
+            var savePage1 = _cashBitMapDefault.GetCash(DefaultNumberPage);
 
             Assert.AreNotEqual(savePage1.TimeSpanPage, pageDefault1.TimeSpanPage);
         }
